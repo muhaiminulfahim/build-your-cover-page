@@ -4,3 +4,4 @@ Disallow: /*/commits/
 Disallow: /*/blame/
 Disallow: /*/raw/
 Allow: /
+Sitemap: https://code.yourdomain.com/sitemap.xml
