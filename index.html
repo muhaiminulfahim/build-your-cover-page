@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BYCP — Build Your Cover Page | NSU</title>
+  <link rel="icon" href="/assets/static/bycp-fav.png">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght=400;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>window.UNIVERSITY_NAME = 'North South University';</script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<button id="floating-show-btn">▶ Show Editor</button>
+
+<header id="topbar">
+  <div class="brand"><a href="/">BYCP<span>/ North South University</span></a></div>
+  <div class="topbar-actions">
+    <label class="file-label-btn" id="json-upload-label" title="Load configuration file template">
+      Edit your cover
+      <input type="file" id="json-file-input" class="hidden-file-input" accept=".json" />
+    </label>
+    <button id="save-json-btn">Download your cover</button>
+    <button id="download-pdf-btn" class="primary">Download PDF</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <aside id="editor-pane">
+    <div id="editor-inner">
+
+      <div class="section-header-row">
+        <div class="section-label">Page Settings</div>
+        <button class="inline-toggle-btn" id="inline-hide-btn">Hide Editor ◀</button>
+      </div>
+      
+      <label>Left Margin</label>
+      <div class="margin-row">
+        <input type="range" id="left-margin" min="0.8" max="2.5" step="0.05" value="1.3" />
+        <span class="margin-val" id="left-margin-display">1.30 in</span>
+      </div>
+
+      <div class="section-header-row"><div class="section-label">Assignment Info</div></div>
+      <label>Type of Assignment</label>
+      <input type="text" id="assignment-type" placeholder="e.g. Assignment, Report, Term Paper…" />
+      <label>Title of Assignment</label>
+      <input type="text" id="assignment-title" placeholder="e.g. A Comprehensive Report on…" />
+
+      <div class="section-header-row"><div class="section-label">Course Info</div></div>
+      <label>Course Code</label>
+      <input type="text" id="course-code" placeholder="e.g. LIFE101" />
+      <label>Course Title</label>
+      <input type="text" id="course-title" placeholder="e.g. Introduction to Life" />
+      <label>Section/Group</label>
+      <input type="text" id="section" placeholder="e.g. 67" />
+      <label>Semester</label>
+      <input type="text" id="semester" placeholder="e.g. Summer 2026" />
+
+      <div class="section-header-row"><div class="section-label">Faculty Info</div></div>
+      <label>Faculty Name</label>
+      <input type="text" id="faculty-name" placeholder="e.g. Dr./Mr./Ms. ..." />
+      <label>Designation</label>
+      <input type="text" id="faculty-designation" placeholder="e.g. Senior Lecturer, Adjunct Professor..." />
+      <label>Department</label>
+      <input type="text" id="faculty-department" placeholder="e.g. Department of..." />
+
+      <div class="section-header-row"><div class="section-label">Submission Mode</div></div>
+      <div class="radio-group">
+        <label><input type="radio" name="sub-type" value="individual" checked /> Individual</label>
+        <label><input type="radio" name="sub-type" value="group" /> Group</label>
+      </div>
+
+      <div id="individual-section">
+        <label>Your Name</label>
+        <input type="text" id="student-name" placeholder="e.g. Md. Muhaiminul Islam Khan" />
+        <label>Your ID</label>
+        <input type="text" id="student-id" placeholder="e.g. 242*****20" />
+        <label>Department</label>
+        <input type="text" id="student-dept" placeholder="e.g. Department of Economics" />
+      </div>
+
+      <div id="group-section" style="display:none;">
+        <label style="margin-top:1rem; font-weight:700; color:#303133;">Members' Name and ID</label>
+        <div id="group-members-section">
+        </div>
+        <button id="add-member-btn">+ Add Another Member</button>
+      </div>
+
+      <div class="section-header-row"><div class="section-label">Submission Date</div></div>
+      <input type="date" id="submission-date" />
+      <br>
+
+    
+    <div class="section-header-row"></div>
+      <label><span><a href="https://github.com/muhaiminulfahim/build-your-cover-page" target="_blank" rel="noopener" class="uni-link-color">BYPC↗</a></span> is yours. Contribute freely.</label>
+    </div>
+  </aside>
+
+  <section id="preview-pane">
+    <div id="a4-page">
+      <div id="page-content">
+
+  <div id="zone-logo">
+          <img id="logo-img" src="/assets/logo/nsu.png" alt="nsu-logo"/>
+        </div>
+
+        <div id="zone-info">
+          <div id="assignment-type-block">
+            <span id="preview-atype" class="atype">ASSIGNMENT</span>
+            <span id="preview-atitle" class="atitle">TITLE OF THE ASSIGNMENT</span>
+          </div>
+          
+          <div class="table-structural-spacer"></div>
+          
+          <table id="info-table">
+            <tbody>
+              <tr class="row1">
+                <td id="preview-code">COURSE CODE</td>
+                <td class="mid" id="preview-title">COURSE TITLE</td>
+                <td id="preview-sec">SEC —</td>
+              </tr>
+              <tr class="row3">
+                <td colspan="3" id="preview-semester">SEMESTER</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="zone-submitted">
+          <div class="submitted-half sub-to" id="submitted-to-half">
+            <div class="sub-header">Submitted to:</div>
+            <div class="sub-body" id="preview-faculty">
+              —
+            </div>
+          </div>
+          
+          <div id="submission-divider"></div>
+          
+          <div class="submitted-half sub-by" id="submitted-by-half">
+            <div class="sub-header">Submitted by:</div>
+            <div class="sub-body" id="preview-student">
+              —
+            </div>
+          </div>
+        </div>
+
+        <div id="zone-date">
+          <div id="preview-date">—</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
