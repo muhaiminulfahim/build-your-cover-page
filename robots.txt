@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /*/commit/
+Disallow: /*/commits/
+Disallow: /*/blame/
+Disallow: /*/raw/
+Allow: /
