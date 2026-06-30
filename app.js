@@ -132,30 +132,38 @@ function escHtml(s) {
   $('preview-date').textContent = formatDate(date);
 }
  updatePreview();
- $('save-json-btn').addEventListener('click', () => {
-  const data = {
-    leftMargin: $('left-margin').value,
-    assignmentType: $('assignment-type').value,
-    assignmentTitle: $('assignment-title').value,
-    courseCode: $('course-code').value,
-    courseTitle: $('course-title').value,
-    section: $('section').value,
-    semester: $('semester').value,
-    facultyName: $('faculty-name').value,
-    facultyDesignation: $('faculty-designation').value,
-    facultyDepartment: $('faculty-department').value,
-    submissionType,
-    studentName: $('student-name').value,
-    studentId: $('student-id').value,
-    studentDept: $('student-dept').value,
-    groupMembers,
-    submissionDate: $('submission-date').value
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'cover-data.json';
-  a.click();
+document.getElementById('save-json-btn').addEventListener('click', () => {
+    const assignmentTypeInput = document.getElementById('assignment-type').value.trim();
+  const courseCodeInput = document.getElementById('course-code').value.trim();
+
+    const assignmentType = assignmentTypeInput ? assignmentTypeInput.toLowerCase() : 'assignment';
+  const courseCode = courseCodeInput ? courseCodeInput.toLowerCase() : 'cover';
+  const generatedFileName = `${assignmentType}_${courseCode}.json`;
+
+      const coverData = {
+    assignmentType: document.getElementById('assignment-type').value,
+    assignmentTitle: document.getElementById('assignment-title').value,
+    courseCode: document.getElementById('course-code').value,
+    courseTitle: document.getElementById('course-title').value,
+    section: document.getElementById('section').value,
+    semester: document.getElementById('semester').value,
+    facultyName: document.getElementById('faculty-name').value,
+    facultyDesignation: document.getElementById('faculty-designation').value,
+    facultyDepartment: document.getElementById('faculty-department').value,
+    submissionDate: document.getElementById('submission-date').value,
+      };
+
+    const jsonString = JSON.stringify(coverData, null, 2);
+  
+    const blob = new Blob([jsonString], { type: 'application/json' });
+  const link = document.createElement('a');
+  
+  link.href = URL.createObjectURL(blob);
+  link.download = generatedFileName;   
+    document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
 });
  $('json-file-input').addEventListener('change', e => {
   const file = e.target.files[0];
