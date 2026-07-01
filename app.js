@@ -132,15 +132,17 @@ function escHtml(s) {
   $('preview-date').textContent = formatDate(date);
 }
  updatePreview();
+
 document.getElementById('save-json-btn').addEventListener('click', () => {
-    const assignmentTypeInput = document.getElementById('assignment-type').value.trim();
+  const assignmentTypeInput = document.getElementById('assignment-type').value.trim();
   const courseCodeInput = document.getElementById('course-code').value.trim();
 
-    const assignmentType = assignmentTypeInput ? assignmentTypeInput.toLowerCase() : 'assignment';
+  const assignmentType = assignmentTypeInput ? assignmentTypeInput.toLowerCase() : 'assignment';
   const courseCode = courseCodeInput ? courseCodeInput.toLowerCase() : 'cover';
   const generatedFileName = `${assignmentType}_${courseCode}.json`;
 
-      const coverData = {
+  const coverData = {
+    leftMargin: document.getElementById('left-margin').value,
     assignmentType: document.getElementById('assignment-type').value,
     assignmentTitle: document.getElementById('assignment-title').value,
     courseCode: document.getElementById('course-code').value,
@@ -150,21 +152,27 @@ document.getElementById('save-json-btn').addEventListener('click', () => {
     facultyName: document.getElementById('faculty-name').value,
     facultyDesignation: document.getElementById('faculty-designation').value,
     facultyDepartment: document.getElementById('faculty-department').value,
+    submissionType,
+    studentName: document.getElementById('student-name').value,
+    studentId: document.getElementById('student-id').value,
+    studentDept: document.getElementById('student-dept').value,
+    groupMembers,
     submissionDate: document.getElementById('submission-date').value,
-      };
+  };
 
-    const jsonString = JSON.stringify(coverData, null, 2);
+  const jsonString = JSON.stringify(coverData, null, 2);
   
-    const blob = new Blob([jsonString], { type: 'application/json' });
+  const blob = new Blob([jsonString], { type: 'application/json' });
   const link = document.createElement('a');
   
   link.href = URL.createObjectURL(blob);
   link.download = generatedFileName;   
-    document.body.appendChild(link);
+  document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(link.href);
 });
+ 
  $('json-file-input').addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
